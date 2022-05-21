@@ -92,7 +92,7 @@ def search_card():
                                             card_dict["phone"],
                                             card_dict["qq"],
                                             card_dict["email"]))
-            # todo 针对找到的名片记录执行修改和删除的操作
+            # 针对找到的名片记录执行修改和删除的操作
             deal_card(card_dict)
 
             break
@@ -101,15 +101,43 @@ def search_card():
 
 
 def deal_card(find_dict):
-    """# todo 定义"""
-    print(find_dict)
+    """对查找到的名片进行修改删除操作
+    :param find_dict: 查找到的名片所属字典
+    """
+    # print(find_dict)
     action_str = input("请选择要执行的操作："
                        "[1] 修改 [2] 删除 [0] 返回上级菜单 ")
+
     if action_str == "1":
-        print("修改名片")
+        # 修改名片
+        find_dict["name"] = input_card_info(find_dict["name"], "姓名：")
+        find_dict["phone"] = input_card_info(find_dict["phone"], "电话：")
+        find_dict["qq"] = input_card_info(find_dict["qq"], "qq：")
+        find_dict["email"] = input_card_info(find_dict["email"], "email：")
+        print("修改名片成功！")
 
     elif action_str == "2":
-        print("删除名片")
+        # 删除名片
+        card_list.remove(find_dict)
+        print("删除名片成功！")
+
     else:
         print("输入错误，请重新查询！")
 
+def input_card_info(dict_value, tip_message):
+    """修改名片时，根据用户是否输入内容判断是否更改名片信息
+    :param dict_value: 字典中原有的值
+    :param tip_message: 输入的提示文字
+    :return:如果用户输入了内容，就返回内容，否则返回字典中原有的值
+    """
+
+    # 1.提示用户输入内容
+    result_str = input(tip_message)
+
+    # 2.针对用户的输入进行判断，如果用户输入内容，直接返回结果
+    if len(result_str) > 0:
+        return result_str
+
+    # 3.如果用户没有输入内容，返回‘字典中原有的值’
+    else:
+        return dict_value
